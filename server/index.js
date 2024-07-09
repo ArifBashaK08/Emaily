@@ -7,9 +7,7 @@ const keys = require("./config/keys")
 const authRoutes = require("./routes/authRoutes")
 require("./models/user")
 require("./services/passport")
-const dotenv = require("dotenv")
 
-dotenv.config()
 const app = express()
 
 app.use(
