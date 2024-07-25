@@ -3,12 +3,15 @@ const mongoose = require("mongoose")
 const session = require("express-session")
 const passport = require("passport")
 const keys = require("./config/keys")
+const cors = require("cors")
 
 const authRoutes = require("./routes/authRoutes")
 require("./models/user")
 require("./services/passport")
 
 const app = express()
+
+app.use(cors());
 
 app.use(
     session({

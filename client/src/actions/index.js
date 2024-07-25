@@ -1,12 +1,18 @@
-import axios from "axios"
-import { FETCH_USER } from "./types"
+import axios from "axios";
+import { FETCH_USER } from "./types";
 
-export const fetchUser = () => async (dispatch) => {
-    try {
-        const res = await axios.get('/api/current_user')
-        dispatch({ type: FETCH_USER, payload: res.data })
-
-    } catch (error) {
-        console.error("Error fetching user data:", error);
+//Fetching user using action creator
+export const fetchUser = () => {
+    return (dispatch) => {
+        axios
+            .get("/api/current_user")
+            .then(res =>{
+                console.log(res)
+                 dispatch({
+                type: FETCH_USER,
+                payload: res.data
+            })
+        })
+            .catch(err => console.error(err))
     }
 }
