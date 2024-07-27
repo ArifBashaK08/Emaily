@@ -29,17 +29,19 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback",
     proxy: true
 }, async (accessToken, refreshToken, profile, done) => {
+    try {
+        const existingUser = await User.findOne({ googleId: profile.id })
 
-    const existingUser = await User.findOne({ googleId: profile.id })
+        if (existingUser) {
+            return done(null, existingUser);
+        }
 
-    if (!existingUser) {
         const user = await User({ googleId: profile.id }).save()
-        console.log(user);
         return done(null, user)
+    } catch (error) {
+        console.error("Error during authentication process:", error.message);
+        done(error, null);
     }
-    
-    console.log(existingUser);
-    return done(null, existingUser)
 })
 )
 
