@@ -4,15 +4,19 @@ import { Component } from "react";
 
 class Header extends Component {
 
-    // renderContent() {
-    //     switch (this.props.auth) {
-    //         case null:
-    //             return "Still deciding"
-    //         case false:
-    //             return "Logged out!"
-    //         default: return "Logged In!"
-    //     }
-    // }
+    renderContent() {
+        switch (this.props.auth) {
+            case null:
+                return;
+            case false:
+                return <li>
+                    <a href="/auth/google">LogIn with Google</a>
+                </li>
+            default: return <li>
+                    <a href="/api/logout">Logout</a>
+                </li>
+        }
+    }
 
     render() {
         return (
@@ -20,10 +24,7 @@ class Header extends Component {
                 <div className="nav-wrapper">
                     <Link to="/" className="left brand-logo">Emaily</Link>
                     <ul className="right">
-                        <li>
-                            {/* {this.renderContent()} */}
-                            <Link to="/auth/google" target="_blank">LogIn with Google</Link>
-                        </li>
+                        {this.renderContent()}
                     </ul>
                 </div>
             </nav>

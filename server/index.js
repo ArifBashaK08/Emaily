@@ -1,11 +1,11 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const session = require("express-session")
 const passport = require("passport")
 const keys = require("./config/keys")
 const cors = require("cors")
 
 const authRoutes = require("./routes/authRoutes")
+const cookieSession = require("cookie-session")
 require("./models/user")
 require("./services/passport")
 
@@ -14,13 +14,12 @@ const app = express()
 app.use(cors());
 
 app.use(
-    session({
-        secret: keys.cookieKey,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 } // 30 days
+    cookieSession({
+      name: 'session',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      keys: [keys.cookieKey]
     })
-)
+  );
 
 app.use(passport.initialize())
 app.use(passport.session())
