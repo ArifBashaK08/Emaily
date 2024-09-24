@@ -1,23 +1,20 @@
 const passport = require("passport")
-
-
+ 
 module.exports = (app) => {
     app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] })
     )
 
     app.get("/auth/google/callback", passport.authenticate("google"), (req, res) => {
         try {
-            res.status(200).redirect("/surveys")
+            return res.status(200).redirect("http://localhost:5173/surveys")
         } catch (error) {
-            res.status(500).send(`<h1>Something went wron</h1>`)
+            return res.status(500).send(`<h1>Something went wrong</h1>`)
         }
     })
 
     app.get("/api/logout", (req, res) => {
-        req.logout((err) => {
-            if (err) { return next(err.message); }
-            res.send("logged out!");
-        });
+        req.logout()
+        res.status(200).redirect("/");
     })
 
     app.get('/api/current_user', (req, res) => {
